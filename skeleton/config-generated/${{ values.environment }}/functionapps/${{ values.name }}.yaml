@@ -1,0 +1,6 @@
+name_prefix: ${{ values.functionAppNamePrefix | dump }}
+resource_group_name: ${{ values.resourceGroupName | dump }}
+python_version: "3.12"
+
+tags:
+  workload: azure-function

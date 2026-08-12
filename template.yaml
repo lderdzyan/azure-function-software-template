@@ -1,0 +1,130 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: azure-function-terraform
+  title: Azure Function with Terraform
+  description: Create a Python HTTP Function App deployed by GitHub Actions and Terraform.
+  tags:
+    - azure
+    - function-app
+    - terraform
+    - github-actions
+spec:
+  owner: group:default/platform-engineering
+  type: service
+
+  parameters:
+    - title: Service details
+      required:
+        - name
+        - description
+        - owner
+      properties:
+        name:
+          title: Component name
+          type: string
+          description: Lowercase Backstage component name.
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          maxLength: 63
+          ui:autofocus: true
+        description:
+          title: Description
+          type: string
+          description: A short description of the function.
+          maxLength: 200
+        owner:
+          title: Owner
+          type: string
+          description: Backstage group or user that owns the component.
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - Group
+                - User
+
+    - title: Azure configuration
+      required:
+        - environment
+        - azureLocation
+        - resourceGroupName
+        - functionAppNamePrefix
+      properties:
+        environment:
+          title: Environment
+          type: string
+          default: dev
+          description: Environment folder and Terraform configuration selector.
+          pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          maxLength: 32
+        azureLocation:
+          title: Azure region
+          type: string
+          default: eastus
+          description: Azure region name, for example eastus or westus2.
+          pattern: '^[a-z0-9]+$'
+        resourceGroupName:
+          title: Resource group name
+          type: string
+          default: rg-function-dev
+          pattern: '^[a-zA-Z0-9._()-]+$'
+          maxLength: 90
+        functionAppNamePrefix:
+          title: Function App name prefix
+          type: string
+          description: A random suffix is added because Azure Function App names are globally unique.
+          pattern: '^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?$'
+          maxLength: 40
+
+    - title: Repository
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: GitHub repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch
+      name: Render repository
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          environment: ${{ parameters.environment }}
+          azureLocation: ${{ parameters.azureLocation }}
+          resourceGroupName: ${{ parameters.resourceGroupName }}
+          functionAppNamePrefix: ${{ parameters.functionAppNamePrefix }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
+        description: ${{ parameters.description }}
+        repoVisibility: private
+        protectDefaultBranch: true
+
+    - id: register
+      name: Register in Backstage
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: GitHub repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}

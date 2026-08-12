@@ -1,0 +1,10 @@
+environment: ${{ values.environment | dump }}
+location: ${{ values.azureLocation | dump }}
+
+defaults:
+  tags:
+    component: ${{ values.name | dump }}
+    environment: ${{ values.environment | dump }}
+    owner: ${{ values.owner | dump }}
+    managed-by: terraform
+    provisioner: backstage

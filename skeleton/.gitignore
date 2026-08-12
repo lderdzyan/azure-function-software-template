@@ -1,0 +1,21 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Function build output
+function.zip
+__pycache__/
+*.py[cod]
+.python_packages/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
