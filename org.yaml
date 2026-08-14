@@ -2,6 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: platform-engineering
+  namespace: default           
   title: Platform Engineering
 spec:
   type: team
@@ -15,6 +16,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: developers
+  namespace: default 
   title: Software Developers
 spec:
   type: team
