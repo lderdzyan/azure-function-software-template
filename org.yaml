@@ -4,6 +4,8 @@ metadata:
   name: platform-engineering
   namespace: default           
   title: Platform Engineering
+  annotations:
+    backstage.io/techdocs-ref: value
 spec:
   type: team
   profile:
@@ -18,6 +20,8 @@ metadata:
   name: developers
   namespace: default 
   title: Software Developers
+  annotations:
+    backstage.io/techdocs-ref: value
 spec:
   type: team
   profile:
