@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform-engineering
+  title: Platform Engineering
+spec:
+  type: team
+  profile:
+    displayName: Platform Engineering
+  children: []
+  members:
+    - lusine.derdzyan_azurecloudchipr.onmicrosoft.com
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: developers
+  title: Software Developers
+spec:
+  type: team
+  profile:
+    displayName: Software Developers
+  children: []
+  members:
+    - babken.asoyan_azurecloudchipr.onmicrosoft.com
