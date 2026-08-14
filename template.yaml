@@ -1,5 +1,6 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
+
 metadata:
   name: azure-function-terraform
   title: Azure Function with Terraform
@@ -11,6 +12,7 @@ metadata:
     - function-app
     - terraform
     - github-actions
+
 spec:
   owner: group:default/platform-engineering
   type: service
@@ -29,11 +31,13 @@ spec:
           pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           maxLength: 63
           ui:autofocus: true
+
         description:
           title: Description
           type: string
           description: A short description of the function.
           maxLength: 200
+
         owner:
           title: Owner
           type: string
@@ -58,18 +62,21 @@ spec:
           description: Environment folder and Terraform configuration selector.
           pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
           maxLength: 32
+
         azureLocation:
           title: Azure region
           type: string
           default: eastus
           description: Azure region name, for example eastus or westus2.
           pattern: '^[a-z0-9]+$'
+
         resourceGroupName:
           title: Resource group name
           type: string
           default: rg-function-dev
           pattern: '^[a-zA-Z0-9._()-]+$'
           maxLength: 90
+
         functionAppNamePrefix:
           title: Function App name prefix
           type: string
@@ -128,18 +135,19 @@ spec:
         description: ${{ parameters.description }}
         repoVisibility: ${{ parameters.repoVisibility }}
         protectDefaultBranch: true
-    
+
     - id: register
       name: Register in Backstage
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
 
   output:
     links:
       - title: GitHub repository
         url: ${{ steps.publish.output.remoteUrl }}
+
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}

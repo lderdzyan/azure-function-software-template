@@ -1,16 +1,17 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
+
 metadata:
   name: ${{ values.name }}
   description: ${{ values.description | dump }}
   annotations:
     backstage.io/techdocs-ref: dir:.
     github.com/project-slug: ${{ values.repoOwner }}/${{ values.repoName }}
-    backstage.io/source-location: url:https://github.com/${{ values.repoOwner }}/${{ values.repoName }}
   tags:
     - azure
     - python
     - terraform
+
 spec:
   type: service
   lifecycle: experimental
