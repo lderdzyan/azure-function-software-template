@@ -89,6 +89,7 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+
         repoVisibility:
           title: Repository Visibility
           type: string
@@ -115,7 +116,8 @@ spec:
           azureLocation: ${{ parameters.azureLocation }}
           resourceGroupName: ${{ parameters.resourceGroupName }}
           functionAppNamePrefix: ${{ parameters.functionAppNamePrefix }}
-          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          repoOwner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
+          repoName: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
 
     - id: publish
       name: Publish to GitHub
@@ -131,8 +133,7 @@ spec:
       name: Register in Backstage
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: /catalog-info.yaml
+        catalogInfoUrl: ${{ steps.publish.output.catalogInfoUrl }}
 
   output:
     links:
