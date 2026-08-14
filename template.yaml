@@ -4,6 +4,8 @@ metadata:
   name: azure-function-terraform
   title: Azure Function with Terraform
   description: Create a Python HTTP Function App deployed by GitHub Actions and Terraform.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
   tags:
     - azure
     - function-app
@@ -39,9 +41,8 @@ spec:
           ui:field: OwnerPicker
           ui:options:
             catalogFilter:
-              kind:
-                - Group
-                - User
+              - kind: Group
+              - kind: User
 
     - title: Azure configuration
       required:
