@@ -79,6 +79,7 @@ spec:
     - title: Repository
       required:
         - repoUrl
+        - repoVisibility
       properties:
         repoUrl:
           title: GitHub repository
@@ -87,6 +88,17 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+        repoVisibility:
+          title: Repository Visibility
+          type: string
+          default: private
+          enum:
+            - private
+            - public
+          enumNames:
+            - Private
+            - Public
+          ui:widget: radio
 
   steps:
     - id: fetch
@@ -111,7 +123,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
         description: ${{ parameters.description }}
-        repoVisibility: private
+        repoVisibility: ${{ parameters.repoVisibility }}
         protectDefaultBranch: true
 
     - id: register
