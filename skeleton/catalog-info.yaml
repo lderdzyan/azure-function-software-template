@@ -5,8 +5,8 @@ metadata:
   description: ${{ values.description | dump }}
   annotations:
     backstage.io/techdocs-ref: dir:.
-    github.com/project-slug: ${{ values.destination.owner }}/${{ values.destination.repo }}
-    backstage.io/source-location: url:https://github.com/${{ values.destination.owner }}/${{ values.destination.repo }}
+    github.com/project-slug: ${{ values.repoOwner }}/${{ values.repoName }}
+    backstage.io/source-location: url:https://github.com/${{ values.repoOwner }}/${{ values.repoName }}
   tags:
     - azure
     - python
